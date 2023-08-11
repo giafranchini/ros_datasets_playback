@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<robot name="sensors_setup">
+  <link name="base_link">
+  </link>
+  <link name="imu">
+  </link>
+  <link name="stereo/left">
+  </link>
+  <link name="stereo/right">
+  </link>
+  <link name="lidar">
+  </link>
+
+  <joint name="base_link_to_imu" type="fixed">
+    <parent link="base_link"/>
+    <child link="imu"/>
+    <origin xyz="0 0 0" rpy="3.14159 0 0"/>
+  </joint>
+  <joint name="imu_to_camera" type="fixed">
+    <parent link="imu"/>
+    <child link="stereo/left"/>
+    <origin xyz="-0.1372 -0.0551 -0.0691" rpy="1.5830857 -0.0108737 -0.0064931"/>
+  </joint>
+  <joint name="camera_left_to_camera_right" type="fixed">
+    <parent link="stereo/left"/>
+    <child link="stereo/right"/>
+    <origin xyz="0.2 0 0" rpy="0 0 0"/>
+  </joint>
+  <joint name="camera_left_to_lidar" type="fixed">
+    <parent link="stereo/left"/>
+    <child link="lidar"/>
+    <origin xyz="0.1 0 0" rpy="1.586708 -0.0393133 0.0541147"/>
+  </joint>  
+</robot>
