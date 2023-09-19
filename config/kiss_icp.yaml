@@ -1,0 +1,22 @@
+odometry_node:
+  ros__parameters:
+    # ROS related parameters
+    # use_sim_time: True
+    # bagfile: ''
+    # visualize: True
+    odom_frame: 'odom'
+    child_frame: 'base_link'
+    publish_odom_tf: False
+    publish_alias_tf: False
+    # KISS-ICP related parameters
+    deskew: False
+    max_range: 5.0
+    min_range: 1.0
+    max_points_per_voxel: 20
+    initial_threshold: 2.0
+    min_motion_th: 1.0
+    cov_lower_treshold: 0.00001
+    cov_default_value: [0.0001, 0.0001, 0.0001, 0.0001, 0.0001, 0.0001]
+
+    # This thing is still not suported: https://github.com/ros2/launch/issues/290#issuecomment-1438476902
+    #  DeclareLaunchArgument("voxel_size", default_value=None),

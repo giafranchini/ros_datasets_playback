@@ -1,0 +1,79 @@
+fixed_lag_smoother_node:
+  ros__parameters:
+    # Fixed-lag smoother configuration
+    optimization_frequency: 20.0
+    transaction_timeout: 0.01
+    lag_duration: 0.5
+
+    motion_models:
+      unicycle_motion_model:
+        type: fuse_models::Unicycle2D
+
+    unicycle_motion_model:
+      #                           X     Y   YAW     VX     VY  VYAW     AX     AY
+      process_noise_diagonal: [0.05, 0.05, 0.06, 0.025, 0.025, 0.02, 0.001, 0.001]
+
+    sensor_models:
+      initial_localization_sensor:
+        type: fuse_models::Unicycle2DIgnition
+        motion_models: [unicycle_motion_model]
+        ignition: true
+      # kiss_icp_odometry:
+      #   type: fuse_models::Odometry2D
+      #   motion_models: [unicycle_motion_model]
+      zed_odometry:
+        type: fuse_models::Odometry2D
+        motion_models: [unicycle_motion_model]
+      wheels_odometry:
+        type: fuse_models::Odometry2D
+        motion_models: [unicycle_motion_model]
+      imu:
+        type: fuse_models::Imu2D
+        motion_models: [unicycle_motion_model]
+
+    initial_localization_sensor:
+      publish_on_startup: true
+      #                   X      Y    YAW     VX     VY   VYAW     AX           AY
+      initial_state: [0.000, 0.000, 0.000, 0.000, 0.000, 0.000, 0.000,       0.000]
+      initial_sigma: [1.000, 1.000, 1.000, 1.000, 1.000, 1.000, 0.000000001, 0.000000001]
+
+    # kiss_icp_odometry:
+    #   topic: 'kiss_icp/odometry'
+    #   position_dimensions: ['x', 'y']
+    #   orientation_dimensions: ['yaw']
+    
+    zed_odometry:
+      topic: 'zed_camera/odom_transf'
+      position_dimensions: ['x', 'y']
+      orientation_dimensions: ['yaw']
+
+    wheels_odometry:
+      topic: 'locomotion/odom'
+      # position_dimensions: ['x', 'y', 'z']
+      position_dimensions: ['x', 'y']
+      # orientation_dimensions: ['yaw']
+      linear_velocity_dimensions: ['x', 'y']
+      angular_velocity_dimensions: ['yaw']
+      differential: true
+
+    imu:
+      topic: 'localisation/imu/data'
+      twist_target_frame: 'base_link'
+      # orientation_dimensions: ['roll', 'pitch' ,'yaw']
+      # angular_velocity_dimensions: ['roll', 'pitch' ,'yaw']
+      orientation_dimensions: ['yaw']
+      angular_velocity_dimensions: ['yaw']
+      # linear_acceleration_dimensions: ['x', 'y']
+
+    publishers:
+      filtered_publisher:
+        type: fuse_models::Odometry2DPublisher
+
+    filtered_publisher:
+      topic: 'fuse/odometry/filtered'
+      base_link_frame_id: 'base_link'
+      odom_frame_id: 'odom'
+      map_frame_id: 'map'
+      world_frame_id: 'odom'
+      publish_tf: false
+      publish_frequency: 10.0

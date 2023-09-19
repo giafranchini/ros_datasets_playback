@@ -2,7 +2,7 @@
 <robot name="sensors_setup">
   <link name="base_link">
   </link>
-  <link name="imu">
+  <link name="imu_link">
   </link>
   <link name="stereo/left">
   </link>
@@ -13,11 +13,11 @@
 
   <joint name="base_link_to_imu" type="fixed">
     <parent link="base_link"/>
-    <child link="imu"/>
+    <child link="imu_link"/>
     <origin xyz="0 0 0" rpy="3.14159 0 0"/>
   </joint>
   <joint name="imu_to_camera" type="fixed">
-    <parent link="imu"/>
+    <parent link="imu_link"/>
     <child link="stereo/left"/>
     <origin xyz="-0.1372 -0.0551 -0.0691" rpy="1.5830857 -0.0108737 -0.0064931"/>
   </joint>

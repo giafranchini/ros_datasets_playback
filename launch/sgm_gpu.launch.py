@@ -48,6 +48,14 @@ def generate_launch_description():
                 package='stereo_image_proc',
                 plugin='stereo_image_proc::PointCloudNode',
                 name='pointcloud_node',
+                parameters=[
+                    {
+                        # 'approximate_sync': LaunchConfiguration('approximate_sync'),
+                        # 'avoid_point_cloud_padding': LaunchConfiguration('avoid_point_cloud_padding'),
+                        # 'use_color': LaunchConfiguration('use_color'),
+                        'use_system_default_qos': True,
+                    }
+                ],
                 remappings=[
                     ('left/image_rect_color', '/stereo/left/image_rect'),
                     ('left/camera_info', '/stereo/left/camera_info'),

@@ -1,0 +1,5 @@
+depth_to_cloud:
+  ros__parameters:
+    source_topic: /zed_camera/depth_image
+    cam_info_topic: /zed_camera/point_cloud_culled/camera_info
+    dest_topic: /point_cloud_from_depth

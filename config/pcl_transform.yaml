@@ -1,0 +1,8 @@
+pointcloud_transform:
+  ros__parameters:
+    use_sim_time: True
+    # in_frame: "camera_color_optical_frame"
+    # in_frame: "lidar"
+    # in_frame: "stereo/left"
+    in_frame: "zed_camera"
+    out_frame: "base_link"

@@ -31,6 +31,14 @@ install(
   scripts/shell4.sh
   DESTINATION lib/${PROJECT_NAME})
 
-install(DIRECTORY config launch scripts urdf DESTINATION share/${PROJECT_NAME})
+install(DIRECTORY 
+  bags 
+  config 
+  launch
+  rviz 
+  scripts 
+  urdf
+  DESTINATION share/${PROJECT_NAME})
+
 
 ament_package()
