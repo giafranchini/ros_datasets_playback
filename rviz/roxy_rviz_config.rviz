@@ -6,15 +6,12 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
-        - /wheels_odometry1
         - /wheels_odometry1/Shape1
         - /wheels_odometry1/Covariance1/Position1
-        - /fuse_odometry1
         - /fuse_odometry1/Shape1
         - /fuse_odometry1/Covariance1
         - /fuse_odometry1/Covariance1/Position1
         - /fuse_odometry1/Covariance1/Orientation1
-        - /rl_odometry1
         - /rl_odometry1/Shape1
         - /rl_odometry1/Covariance1
         - /rl_odometry1/Covariance1/Position1
@@ -101,7 +98,7 @@ Visualization Manager:
         Reliability Policy: Reliable
         Value: /locomotion/odom
       Value: false
-    - Angle Tolerance: 0.10000000149011612
+    - Angle Tolerance: 0.009999999776482582
       Class: rviz_default_plugins/Odometry
       Covariance:
         Orientation:
@@ -117,11 +114,11 @@ Visualization Manager:
           Color: 255; 255; 0
           Scale: 1
           Value: true
-        Value: true
+        Value: false
       Enabled: true
-      Keep: 100
+      Keep: 1
       Name: fuse_odometry
-      Position Tolerance: 0.10000000149011612
+      Position Tolerance: 0.009999999776482582
       Shape:
         Alpha: 1
         Axes Length: 1
@@ -140,7 +137,7 @@ Visualization Manager:
         Reliability Policy: Reliable
         Value: /fuse/odometry/filtered
       Value: true
-    - Angle Tolerance: 0.10000000149011612
+    - Angle Tolerance: 0.009999999776482582
       Class: rviz_default_plugins/Odometry
       Covariance:
         Orientation:
@@ -157,10 +154,10 @@ Visualization Manager:
           Scale: 1
           Value: true
         Value: true
-      Enabled: true
-      Keep: 100
+      Enabled: false
+      Keep: 1
       Name: rl_odometry
-      Position Tolerance: 0.10000000149011612
+      Position Tolerance: 0.009999999776482582
       Shape:
         Alpha: 1
         Axes Length: 1
@@ -178,7 +175,7 @@ Visualization Manager:
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /localisation/odometry/filtered
-      Value: true
+      Value: false
     - Angle Tolerance: 0.10000000149011612
       Class: rviz_default_plugins/Odometry
       Covariance:
@@ -319,25 +316,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 13.108780860900879
+      Distance: 7.706209182739258
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 2.7687106132507324
-        Y: 0.0632527768611908
-        Z: -3.324814558029175
+        X: 0.053528398275375366
+        Y: 0.4159112572669983
+        Z: -1.3502795696258545
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.39979657530784607
+      Pitch: 0.8797975182533264
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.9267635345458984
+      Yaw: 1.5267616510391235
     Saved: ~
 Window Geometry:
   Displays:
