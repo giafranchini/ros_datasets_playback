@@ -1,0 +1,47 @@
+player:
+  ros__parameters:
+    play:
+      read_ahead_queue_size: 1000
+      node_prefix: ""
+      rate: 1.0
+      # topics_to_filter: ["/foo", "/bar"] # Play all topics
+      # topics_regex_to_filter: "[xyz]/topic"
+      # topics_regex_to_exclude: "[abc]/topic"
+      loop: true
+      clock_publish_frequency: 1.0
+      clock_publish_on_topic_publish: true
+      # clock_trigger_topics: ["/triggers/clock"] # All topics act as a trigger
+      # Negative durations are invalid. 
+      delay:
+        sec: 0
+        nsec: 0
+      # Negative timestamps will make the playback to not stop.  
+      playback_duration:
+        sec: -1
+        nsec: 00000000
+      # Negative timestamps will make the playback to not stop.
+      playback_until_timestamp:
+        sec: -1
+        nsec: 00000000
+      start_paused: false
+      # Negative durations are invalid.
+      start_offset: 
+        sec: 0
+        nsec: 00000000
+      disable_keyboard_controls: true
+      # Negative value means that published messages do not need to be acknowledged.
+      wait_acked_timeout:
+        sec: -1
+        nsec: 00000000
+      disable_loan_message: false
+
+    storage:
+      uri: "/home/giacomo/ros2_iron_ws/src/etna_s3li_playback/bags/custom_rosbag2__1/custom_rosbag2__1_0.db3"
+      storage_id: "sqlite3"
+      storage_config_uri: ""
+      max_bagfile_size: 0
+      max_bagfile_duration: 0
+      max_cache_size: 0
+      storage_preset_profile: ""
+      snapshot_mode: false
+      # custom_data: ["key1=value1", "key2=value2"]

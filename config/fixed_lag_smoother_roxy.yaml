@@ -1,9 +1,13 @@
 fixed_lag_smoother_node:
   ros__parameters:
     # Fixed-lag smoother configuration
-    optimization_frequency: 20.0
+    optimization_frequency: 30.0
     transaction_timeout: 0.01
-    lag_duration: 0.5
+    lag_duration: 0.1
+
+    # Solver configuration
+    # use_mixed_precision_solves: true
+    # max_num_refinement_iterations: 2
 
     motion_models:
       omnidirectional_3d_motion_model:
@@ -21,15 +25,15 @@ fixed_lag_smoother_node:
         type: fuse_models::Omnidirectional3DIgnition
         motion_models: [omnidirectional_3d_motion_model]
         ignition: true
-      # zed_odometry:
-      #   type: fuse_models::Odometry3D
-      #   motion_models: [omnidirectional_3d_motion_model]
+      zed_odometry:
+       type: fuse_models::Odometry3D
+       motion_models: [omnidirectional_3d_motion_model]
       wheels_odometry:
         type: fuse_models::Odometry3D
         motion_models: [omnidirectional_3d_motion_model]
-      # imu:
-        # type: fuse_models::Imu3D
-        # motion_models: [omnidirectional_3d_motion_model]
+      imu:
+        type: fuse_models::Imu3D
+        motion_models: [omnidirectional_3d_motion_model]
  
     initial_localization_sensor:
       publish_on_startup: true
@@ -38,38 +42,34 @@ fixed_lag_smoother_node:
                       0.000, 0.000, 0.000,
                       0.000, 0.000, 0.000, 
                       0.000, 0.000, 0.000]
-      initial_sigma: [0.001, 0.001, 0.001, 
-                      0.001, 0.001, 0.001,
-                      0.001, 0.001, 0.001,
-                      0.001, 0.001, 0.001,
+      initial_sigma: [1.0, 1.0, 1.0, 
+                      1.0, 1.0, 1.0,
+                      1.0, 1.0, 1.0,
+                      1.0, 1.0, 1.0,
                       0.000000001, 0.000000001, 0.000000001]
  
     zed_odometry:
       topic: '/zed_camera/odom_transf'
       position_dimensions: ['x', 'y', 'z']
-      orientation_dimensions: ['yaw']
-      differential: false
+      orientation_dimensions: ['roll', 'pitch', 'yaw']
 
     wheels_odometry:
       topic: '/locomotion/odom'
       position_dimensions: ['x', 'y']
-      # orientation_dimensions: ['yaw']
       linear_velocity_dimensions: ['x', 'y']
       angular_velocity_dimensions: ['yaw']
       differential: true
       independent: false
       use_twist_covariance: false
+      minimum_pose_relative_covariance_diagonal: [0.0001, 0.0001, 0.0001, # x, y, z 
+                                                  0.0001, 0.0001, 0.0001] # roll, pitch, yaw
 
     imu:
       topic: '/localisation/imu/data_rotated'
       orientation_dimensions: ['roll', 'pitch']
-      # orientation_target_frame: 'odom'
       angular_velocity_dimensions: ['roll', 'pitch', 'yaw']
       twist_target_frame: 'base_link'
       differential: false
-      use_twist_covariance: false
-      throttle_period: 0.1
-      # tf_timeout: 0.11
 
     publishers:
       filtered_publisher:
@@ -84,4 +84,4 @@ fixed_lag_smoother_node:
       publish_tf: true
       invert_tf: false
       predict_to_current_time: false
-      publish_frequency: 10.0
+      publish_frequency: 50.0

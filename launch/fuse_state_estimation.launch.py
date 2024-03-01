@@ -17,26 +17,20 @@ def generate_launch_description():
     smoother_config = 'fixed_lag_smoother_roxy.yaml'
     ekf_config = 'ekf_roxy.yaml'
     smoother_params = os.path.join(this_package_dir, 'config', smoother_config)
-    ekf_params = os.path.join(get_package_share_directory('robot_localization'), 'params', ekf_config)
+    ekf_params = os.path.join(this_package_dir, 'config', ekf_config)
+    playback = True
     
     container_fuse = ComposableNodeContainer(
         name='container_fuse',
         namespace='',
         package='rclcpp_components',
-        executable='component_container',
-        # prefix=['gdbserver localhost:3000'],
+        executable='component_container_mt',
         composable_node_descriptions=[
             ComposableNode(
                 package='fuse_optimizers',
                 plugin='fuse_optimizers::FixedLagSmootherComponent',
                 name='fixed_lag_smoother_node',
                 parameters=[smoother_params],
-                extra_arguments=[{'use_intra_process_comms': True}],
-            ),
-            ComposableNode(
-                package='logging_demo',
-                plugin='logging_demo::LoggerConfig',
-                name='logger_config_fuse',
                 extra_arguments=[{'use_intra_process_comms': True}],
             ),
         ],
@@ -49,18 +43,19 @@ def generate_launch_description():
         name='ekf_filter_node',
         output='screen',
         parameters=[ekf_params],
+        condition=IfCondition(LaunchConfiguration('robot_localization')),
     )
 
-    imu_rotation = Node(
+    imu_transformer = Node(
         package='imu_transformer',
         executable='imu_transformer_node',
-        name='imu_transformer_node',
-        output='screen',
-        arguments=[
-            '--ros-args', '-p', 'target_frame:=base_link'],
+        name='imu_transformer',
+        namespace='localisation/imu',
+        parameters=[{'target_frame': 'base_link'}],
         remappings=[
             ('imu_in', '/localisation/imu/data'),
             ('imu_out', '/localisation/imu/data_rotated')],
+        output='screen',
     )
 
     fuse_odom_recorder = Node(
@@ -70,9 +65,6 @@ def generate_launch_description():
         parameters=[
             {'topic_name': 'fuse/odometry/filtered'},
             {'output_file': 'fuse_odom.csv'},
-        ],
-        arguments=[
-            '--ros-args', '--log-level', LaunchConfiguration('log_level')
         ],
         condition=IfCondition(LaunchConfiguration('odom_recording'))
     )
@@ -84,9 +76,6 @@ def generate_launch_description():
         parameters=[
             {'topic_name': 'odometry/filtered'},
             {'output_file': 'rl_odom.csv'},
-        ],
-        arguments=[
-            '--ros-args', '--log-level', LaunchConfiguration('log_level')
         ],
         condition=IfCondition(LaunchConfiguration('odom_recording'))
     )
@@ -104,19 +93,22 @@ def generate_launch_description():
     rosbag2_playback =  ExecuteProcess(
         cmd=['ros2', 'bag', 'play',
             PathJoinSubstitution([this_package_dir, 'bags', bag_relative_path]),
-            '--clock', '--loop'],
+            '--clock'],
         output='screen',
+        condition=IfCondition(LaunchConfiguration('playback')),
     )
 
     return LaunchDescription([
-        SetParameter(name='use_sim_time', value=True),
+        SetParameter(name='use_sim_time', value=playback),
         DeclareLaunchArgument('visualize', default_value='true'),
+        DeclareLaunchArgument('playback', default_value=str(playback)),
         DeclareLaunchArgument('odom_recording', default_value='false'),
+        DeclareLaunchArgument('robot_localization', default_value='false'),
         rosbag2_playback,
         rviz2,
-        imu_rotation,
         container_fuse,
-        # robot_localization,
         fuse_odom_recorder,
         rl_odom_recorder,
+        imu_transformer,
+        robot_localization,
     ])
