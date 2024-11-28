@@ -1,6 +1,23 @@
 #!/bin/bash
 set -e
 
-if [ -f /home/user/noetic_source/devel_isolated/setup.bash ]; then source /home/user/noetic_source/devel_isolated/setup.bash; fi
+if [ -z "$1" ]
+  then
+    echo "No bag path supplied!"
+    exit 0
+fi
 
-rosbag play -l /home/user/humble_ws/src/etna_s3li_playback/bags/s3li_traverse_1.bag --clock
+if [ "$1" == "-h" ]; then
+  echo "Usage: `basename $0` [-h] [-p path] -- replay a rosbag file
+
+where:
+    -h  show this help text
+    -p  the bag file path"
+  exit 0
+fi
+
+bag_file="$1"
+
+source ${ROS1_INSTALL_PATH}/setup.bash
+
+rosbag play -l --clock $bag_file
