@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>etna_s3li_playback</name>
-  <version>0.0.0</version>
-  <description>ROS2 package to playback data from DLR etna s3li dataset</description>
+  <name>ros_datasets_playback</name>
+  <version>1.0.0</version>
+  <description>ROS2 package to playback data from ROS / ROS2 datasets</description>
   <maintainer email="giacomo.franchini@polito.it">user</maintainer>
   <license>TODO: License declaration</license>
 
