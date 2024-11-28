@@ -1,4 +1,6 @@
-etna_s3li_playback
+ros_datasets_playback
 =============
 
-Configuration and launch files to replay the DLR [etna_s3li](https://www.dlr.de/rm/en/s3li_dataset/#gallery/37227) dataset in ROS2
+Configurations, launch files and utilities to replay ROS and ROS2 datasets.
+
+**N.B.** This is a **ROS2** package which leverages the [ros1_bridge](https://github.com/ros2/ros1_bridge) to replay ROS bags.
